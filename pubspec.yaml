@@ -1,6 +1,6 @@
 name: phone_state
 description: This plugin allows you to know quickly and easily if your Android or iOS device is receiving a call and to know the status of the call.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/andreamainella98/phone_state
 
 environment:
