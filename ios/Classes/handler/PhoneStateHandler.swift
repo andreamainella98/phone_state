@@ -31,7 +31,7 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate{
         } else {
             status = PhoneStateStatus.NOTHING
         }
-        _eventSink!(status.rawValue)
+        if(_eventSink != nil) { _eventSink!(status.rawValue) }
     }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
