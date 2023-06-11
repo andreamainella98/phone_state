@@ -1,17 +1,31 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_state/src/utils/constants.dart';
 import 'package:phone_state/src/utils/phone_state_status.dart';
 
-/// PhoneState is a helper class that is used to be able to call the stream of PhoneState
+/// This class is used to store the current phone state
+///
+/// To listen to the phone state change, use the [stream] getter
 class PhoneState {
-  static const EventChannel _eventChannel =
-      EventChannel(Constants.EVENT_CHANNEL);
+  /// The current phone state
+  PhoneStateStatus status;
+
+  /// The number of the caller. NOT WORKING ON IOS
+  String? number;
+
+  PhoneState._({required this.status, this.number});
+
+  /// This method allows you to create a [PhoneState] object with the status [PhoneStateStatus.NOTHING]
+  ///
+  /// Use for initializing your [PhoneState] object
+  factory PhoneState.nothing() => PhoneState._(status: PhoneStateStatus.NOTHING);
+
+  static const EventChannel _eventChannel = EventChannel(Constants.EVENT_CHANNEL);
 
   /// This method allows you to have a stream of the system phone state change
-  static Stream<PhoneStateStatus?> get phoneStateStream {
-    return _eventChannel.receiveBroadcastStream().distinct().map(
-        (dynamic event) => EnumToString.fromString<PhoneStateStatus>(
-            PhoneStateStatus.values, event));
+  static Stream<PhoneState?> get stream {
+    return _eventChannel.receiveBroadcastStream().distinct().map((dynamic event) => PhoneState._(
+          status: PhoneStateStatus.values.firstWhere((element) => element.name == event['status'] as String),
+          number: event['phoneNumber'],
+        ));
   }
 }
