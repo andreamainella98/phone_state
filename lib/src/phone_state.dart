@@ -22,7 +22,7 @@ class PhoneState {
   static const EventChannel _eventChannel = EventChannel(Constants.EVENT_CHANNEL);
 
   /// This method allows you to have a stream of the system phone state change
-  static Stream<PhoneState?> get stream {
+  static Stream<PhoneState> get stream {
     return _eventChannel.receiveBroadcastStream().distinct().map((dynamic event) => PhoneState._(
           status: PhoneStateStatus.values.firstWhere((element) => element.name == event['status'] as String),
           number: event['phoneNumber'],
