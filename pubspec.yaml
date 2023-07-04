@@ -4,14 +4,12 @@ version: 1.0.2
 homepage: https://github.com/andreamainella98/phone_state
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=2.5.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  enum_to_string: ^2.0.1
 
 dev_dependencies:
   flutter_test:

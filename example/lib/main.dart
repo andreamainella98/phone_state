@@ -19,21 +19,16 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  PhoneStateStatus status = PhoneStateStatus.NOTHING;
+  PhoneState status = PhoneState.nothing();
   bool granted = false;
 
   Future<bool> requestPermission() async {
     var status = await Permission.phone.request();
 
-    switch (status) {
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-      case PermissionStatus.limited:
-      case PermissionStatus.permanentlyDenied:
-        return false;
-      case PermissionStatus.granted:
-        return true;
-    }
+    return switch (status) {
+      PermissionStatus.denied || PermissionStatus.restricted || PermissionStatus.limited || PermissionStatus.permanentlyDenied => false,
+      PermissionStatus.provisional || PermissionStatus.granted => true,
+    };
   }
 
   @override
@@ -43,7 +38,7 @@ class _ExampleState extends State<Example> {
   }
 
   void setStream() {
-    PhoneState.phoneStateStream.listen((event) {
+    PhoneState.stream.listen((event) {
       setState(() {
         if (event != null) {
           status = event;
@@ -83,6 +78,11 @@ class _ExampleState extends State<Example> {
               "Status of call",
               style: TextStyle(fontSize: 24),
             ),
+            if (status.status == PhoneStateStatus.CALL_INCOMING || status.status == PhoneStateStatus.CALL_STARTED)
+              Text(
+                "Number: ${status.number}",
+                style: const TextStyle(fontSize: 24),
+              ),
             Icon(
               getIcons(),
               color: getColor(),
@@ -95,27 +95,19 @@ class _ExampleState extends State<Example> {
   }
 
   IconData getIcons() {
-    switch (status) {
-      case PhoneStateStatus.NOTHING:
-        return Icons.clear;
-      case PhoneStateStatus.CALL_INCOMING:
-        return Icons.add_call;
-      case PhoneStateStatus.CALL_STARTED:
-        return Icons.call;
-      case PhoneStateStatus.CALL_ENDED:
-        return Icons.call_end;
-    }
+    return switch (status.status) {
+      PhoneStateStatus.NOTHING => Icons.clear,
+      PhoneStateStatus.CALL_INCOMING => Icons.add_call,
+      PhoneStateStatus.CALL_STARTED => Icons.call,
+      PhoneStateStatus.CALL_ENDED => Icons.call_end,
+    };
   }
 
   Color getColor() {
-    switch (status) {
-      case PhoneStateStatus.NOTHING:
-      case PhoneStateStatus.CALL_ENDED:
-        return Colors.red;
-      case PhoneStateStatus.CALL_INCOMING:
-        return Colors.green;
-      case PhoneStateStatus.CALL_STARTED:
-        return Colors.orange;
-    }
+    return switch (status.status) {
+      PhoneStateStatus.NOTHING || PhoneStateStatus.CALL_ENDED => Colors.red,
+      PhoneStateStatus.CALL_INCOMING => Colors.green,
+      PhoneStateStatus.CALL_STARTED => Colors.orange,
+    };
   }
 }

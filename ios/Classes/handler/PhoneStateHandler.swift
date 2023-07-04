@@ -31,7 +31,13 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate{
         } else {
             status = PhoneStateStatus.NOTHING
         }
-        if(_eventSink != nil) { _eventSink!(status.rawValue) }
+        // Map
+        if(_eventSink != nil) { _eventSink!(
+            [
+                "status": status.rawValue,
+                "phoneNumber": nil // cannot get phone number on iOS
+            ]
+        ) }
     }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
