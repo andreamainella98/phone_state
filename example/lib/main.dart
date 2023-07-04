@@ -15,7 +15,7 @@ class Example extends StatefulWidget {
   const Example({Key? key}) : super(key: key);
 
   @override
-  _ExampleState createState() => _ExampleState();
+  State<Example> createState() => _ExampleState();
 }
 
 class _ExampleState extends State<Example> {
@@ -61,7 +61,6 @@ class _ExampleState extends State<Example> {
           children: [
             if (Platform.isAndroid)
               MaterialButton(
-                child: const Text("Request permission of Phone"),
                 onPressed: !granted
                     ? () async {
                         bool temp = await requestPermission();
@@ -73,6 +72,7 @@ class _ExampleState extends State<Example> {
                         });
                       }
                     : null,
+                child: const Text("Request permission of Phone"),
               ),
             const Text(
               "Status of call",

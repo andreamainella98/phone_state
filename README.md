@@ -12,6 +12,7 @@ This plugin allows you to know quickly and easily if your Android or iOS device 
 ## PAY ATTENTION
 
 - In the iOS simulator doesn't work
+- The phone number is only obtainable on Android!
 
 ## HOW TO INSTALL
 #### Flutter
@@ -19,9 +20,7 @@ This plugin allows you to know quickly and easily if your Android or iOS device 
 dependencies:
   flutter:
     sdk: flutter
-  phone_state:
-    git:
-      url: https://github.com/berkekbgz/phone_state.git
+  phone_state: 1.0.3
 ```
 #### Android: Added permission on manifest
 ```xml
