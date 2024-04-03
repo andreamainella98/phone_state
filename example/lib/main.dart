@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_state/phone_state.dart';
@@ -12,7 +13,7 @@ main() {
 }
 
 class Example extends StatefulWidget {
-  const Example({Key? key}) : super(key: key);
+  const Example({super.key});
 
   @override
   State<Example> createState() => _ExampleState();
@@ -26,7 +27,11 @@ class _ExampleState extends State<Example> {
     var status = await Permission.phone.request();
 
     return switch (status) {
-      PermissionStatus.denied || PermissionStatus.restricted || PermissionStatus.limited || PermissionStatus.permanentlyDenied => false,
+      PermissionStatus.denied ||
+      PermissionStatus.restricted ||
+      PermissionStatus.limited ||
+      PermissionStatus.permanentlyDenied =>
+        false,
       PermissionStatus.provisional || PermissionStatus.granted => true,
     };
   }
@@ -40,9 +45,7 @@ class _ExampleState extends State<Example> {
   void setStream() {
     PhoneState.stream.listen((event) {
       setState(() {
-        if (event != null) {
-          status = event;
-        }
+        status = event;
       });
     });
   }
@@ -51,7 +54,7 @@ class _ExampleState extends State<Example> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Phone State"),
+        title: const Text('Phone State'),
         centerTitle: true,
       ),
       body: Center(
@@ -72,15 +75,16 @@ class _ExampleState extends State<Example> {
                         });
                       }
                     : null,
-                child: const Text("Request permission of Phone"),
+                child: const Text('Request permission of Phone'),
               ),
             const Text(
-              "Status of call",
+              'Status of call',
               style: TextStyle(fontSize: 24),
             ),
-            if (status.status == PhoneStateStatus.CALL_INCOMING || status.status == PhoneStateStatus.CALL_STARTED)
+            if (status.status == PhoneStateStatus.CALL_INCOMING ||
+                status.status == PhoneStateStatus.CALL_STARTED)
               Text(
-                "Number: ${status.number}",
+                'Number: ${status.number}',
                 style: const TextStyle(fontSize: 24),
               ),
             Icon(

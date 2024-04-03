@@ -17,15 +17,21 @@ class PhoneState {
   /// This method allows you to create a [PhoneState] object with the status [PhoneStateStatus.NOTHING]
   ///
   /// Use for initializing your [PhoneState] object
-  factory PhoneState.nothing() => PhoneState._(status: PhoneStateStatus.NOTHING);
+  factory PhoneState.nothing() =>
+      PhoneState._(status: PhoneStateStatus.NOTHING);
 
-  static const EventChannel _eventChannel = EventChannel(Constants.EVENT_CHANNEL);
+  static const EventChannel _eventChannel =
+      EventChannel(Constants.EVENT_CHANNEL);
 
   /// This method allows you to have a stream of the system phone state change
   static Stream<PhoneState> get stream {
-    return _eventChannel.receiveBroadcastStream().distinct().map((dynamic event) => PhoneState._(
-          status: PhoneStateStatus.values.firstWhere((element) => element.name == event['status'] as String),
-          number: event['phoneNumber'],
-        ));
+    return _eventChannel
+        .receiveBroadcastStream()
+        .distinct()
+        .map((dynamic event) => PhoneState._(
+              status: PhoneStateStatus.values.firstWhere(
+                  (element) => element.name == event['status'] as String),
+              number: event['phoneNumber'],
+            ));
   }
 }
