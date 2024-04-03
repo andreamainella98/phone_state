@@ -1,3 +1,5 @@
+## 1.0.4
+- Updated dependencies, minimum version of ios and formatted code
 ## 1.0.3
 - Added phone number on incoming call on android by [@berkekbgz](https://github.com/berkekbgz) with pr [#17](https://github.com/andreamainella98/phone_state/pull/17)
 ## 1.0.2
