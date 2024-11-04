@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Flutter
 
 @available(iOS 10.0, *)
 class FlutterHandler{

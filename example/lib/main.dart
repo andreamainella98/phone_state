@@ -20,7 +20,6 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  PhoneState status = PhoneState.nothing();
   bool granted = false;
 
   Future<bool> requestPermission() async {
@@ -34,20 +33,6 @@ class _ExampleState extends State<Example> {
         false,
       PermissionStatus.provisional || PermissionStatus.granted => true,
     };
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isIOS) setStream();
-  }
-
-  void setStream() {
-    PhoneState.stream.listen((event) {
-      setState(() {
-        status = event;
-      });
-    });
   }
 
   @override
@@ -69,37 +54,49 @@ class _ExampleState extends State<Example> {
                         bool temp = await requestPermission();
                         setState(() {
                           granted = temp;
-                          if (granted) {
-                            setStream();
-                          }
                         });
                       }
                     : null,
-                child: const Text('Request permission of Phone'),
+                child: const Text('Request permission of Phone and start listener'),
               ),
-            const Text(
-              'Status of call',
-              style: TextStyle(fontSize: 24),
+            StreamBuilder(
+              stream: PhoneState.stream,
+              builder: (context, snapshot) {
+                PhoneState? status = snapshot.data;
+                if (status == null) {
+                  return Text(
+                    'Phone State not available',
+                  );
+                }
+                return Column(
+                  children: [
+                    const Text(
+                      'Status of call',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    if (status.status == PhoneStateStatus.CALL_INCOMING ||
+                        status.status == PhoneStateStatus.CALL_STARTED)
+                      Text(
+                        'Number: ${status.number}',
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    Icon(
+                      getIcons(status.status),
+                      color: getColor(status.status),
+                      size: 80,
+                    )
+                  ],
+                );
+              },
             ),
-            if (status.status == PhoneStateStatus.CALL_INCOMING ||
-                status.status == PhoneStateStatus.CALL_STARTED)
-              Text(
-                'Number: ${status.number}',
-                style: const TextStyle(fontSize: 24),
-              ),
-            Icon(
-              getIcons(),
-              color: getColor(),
-              size: 80,
-            )
           ],
         ),
       ),
     );
   }
 
-  IconData getIcons() {
-    return switch (status.status) {
+  IconData getIcons(PhoneStateStatus status) {
+    return switch (status) {
       PhoneStateStatus.NOTHING => Icons.clear,
       PhoneStateStatus.CALL_INCOMING => Icons.add_call,
       PhoneStateStatus.CALL_STARTED => Icons.call,
@@ -107,8 +104,8 @@ class _ExampleState extends State<Example> {
     };
   }
 
-  Color getColor() {
-    return switch (status.status) {
+  Color getColor(PhoneStateStatus status) {
+    return switch (status) {
       PhoneStateStatus.NOTHING || PhoneStateStatus.CALL_ENDED => Colors.red,
       PhoneStateStatus.CALL_INCOMING => Colors.green,
       PhoneStateStatus.CALL_STARTED => Colors.orange,

@@ -1,22 +1,18 @@
 package it.mainella.phone_state.handler
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.telephony.TelephonyManager
-import androidx.annotation.NonNull
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodChannel
 import it.mainella.phone_state.receiver.PhoneStateReceiver
 import it.mainella.phone_state.utils.Constants
 
-class FlutterHandler(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+class FlutterHandler(binding: FlutterPlugin.FlutterPluginBinding) {
     private var phoneStateEventChannel: EventChannel = EventChannel(binding.binaryMessenger, Constants.EVENT_CHANNEL)
 
     init {
@@ -34,6 +30,26 @@ class FlutterHandler(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
                             )
                         )
                     }
+                }
+                val context = binding.applicationContext
+                val hasPhoneStatePermission = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_PHONE_STATE
+                ) == PackageManager.PERMISSION_GRANTED
+
+                val hasCallLogPermission = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_CALL_LOG
+                ) == PackageManager.PERMISSION_GRANTED
+
+                if (hasPhoneStatePermission && hasCallLogPermission) {
+                    receiver.instance(context)
+                    events?.success(
+                        mapOf(
+                            "status" to receiver.status.name,
+                            "phoneNumber" to receiver.phoneNumber
+                        )
+                    )
                 }
 
                 binding.applicationContext.registerReceiver(

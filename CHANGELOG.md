@@ -1,3 +1,9 @@
+## 2.0.0
+- Updated dependencies
+- Updated version of flutter to stable
+- Updated Android Build
+- Add initial instance of PhoneState with initial status of device - Request of [@MINEGHOST007](https://github.com/MINEGHOST007) with issue [#29](https://github.com/andreamainella98/phone_state/issues/29)
+- Fixed value of stream by [@Penguin-Lin](https://github.com/andreamainella98/phone_state/pull/34) with pr [#34](https://github.com/andreamainella98/phone_state/pull/34)
 ## 1.0.4
 - Updated dependencies, minimum version of ios and formatted code
 ## 1.0.3

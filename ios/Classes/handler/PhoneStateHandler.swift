@@ -1,15 +1,9 @@
-//
-//  PhoneStateHandler.swift
-//  phone_state
-//
-//  Created by Andrea Mainella on 28/02/22.
-//
-
 import Foundation
 import CallKit
+import Flutter
 
 @available(iOS 10.0, *)
-class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate{
+class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate {
     
     private var _eventSink: FlutterEventSink?
     private var callObserver = CXCallObserver()
@@ -19,29 +13,48 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate{
         callObserver.setDelegate(self, queue: nil)
     }
     
-    public func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        var status = PhoneStateStatus.NOTHING
+    private func getCallState(from call: CXCall) -> PhoneStateStatus {
         if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            status = PhoneStateStatus.CALL_INCOMING
+            return .CALL_INCOMING
         } else if (call.isOutgoing == false && call.hasConnected == true && call.hasEnded == false)
                     || (call.hasConnected == true && call.hasEnded == false && call.isOnHold == false) {
-            status = PhoneStateStatus.CALL_STARTED
+            return .CALL_STARTED
         } else if call.isOutgoing == false && call.hasEnded == true {
-            status = PhoneStateStatus.CALL_ENDED
+            return .CALL_ENDED
         } else {
-            status = PhoneStateStatus.NOTHING
+            return .NOTHING
         }
-        // Map
-        if(_eventSink != nil) { _eventSink!(
-            [
+    }
+    
+    private func sendCallState(_ status: PhoneStateStatus) {
+        if let eventSink = _eventSink {
+            eventSink([
                 "status": status.rawValue,
                 "phoneNumber": nil // cannot get phone number on iOS
-            ]
-        ) }
+            ])
+        }
+    }
+    
+    public func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        let status = getCallState(from: call)
+        sendCallState(status)
     }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         _eventSink = events
+        
+        var initialStatus = PhoneStateStatus.NOTHING
+        
+        for call in callObserver.calls {
+            let callStatus = getCallState(from: call)
+            if callStatus != .NOTHING {
+                initialStatus = callStatus
+                break
+            }
+        }
+        
+        sendCallState(initialStatus)
+        
         return nil
     }
     
@@ -49,5 +62,4 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate{
         _eventSink = nil
         return nil
     }
-    
 }

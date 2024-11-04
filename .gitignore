@@ -119,4 +119,6 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 #Fvm
-.fvm/flutter_sdk
+
+# FVM Version Cache
+.fvm/

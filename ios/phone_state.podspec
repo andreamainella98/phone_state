@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'phone_state'
-  s.version          = '1.0.4'
+  s.version          = '2.0.0'
   s.summary          = 'Plugin used to obtain the status of an incoming call in Android and iOS'
   s.description      = <<-DESC
 Plugin used to obtain the status of an incoming call in Android and iOS
@@ -15,7 +15,7 @@ Plugin used to obtain the status of an incoming call in Android and iOS
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '15.6'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
