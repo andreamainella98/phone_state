@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'phone_state'
-  s.version          = '2.0.0'
+  s.version          = '2.0.1'
   s.summary          = 'Plugin used to obtain the status of an incoming call in Android and iOS'
   s.description      = <<-DESC
 Plugin used to obtain the status of an incoming call in Android and iOS

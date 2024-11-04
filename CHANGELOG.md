@@ -1,3 +1,5 @@
+## 2.0.1
+- Formatted code for pub dev
 ## 2.0.0
 - Updated dependencies
 - Updated version of flutter to stable
