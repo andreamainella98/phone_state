@@ -57,7 +57,8 @@ class _ExampleState extends State<Example> {
                         });
                       }
                     : null,
-                child: const Text('Request permission of Phone and start listener'),
+                child: const Text(
+                    'Request permission of Phone and start listener'),
               ),
             StreamBuilder(
               stream: PhoneState.stream,
