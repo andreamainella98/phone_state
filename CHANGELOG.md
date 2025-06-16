@@ -1,3 +1,6 @@
+## 2.1.1
+- Added duration of call - Request of [@steveroseik](https://github.com/steveroseik) with issue [#28](https://github.com/andreamainella98/phone_state/issues/28)
+- Merry christmas everyone 🎉🎄
 ## 2.0.1
 - Formatted code for pub dev
 ## 2.0.0

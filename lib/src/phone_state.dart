@@ -13,7 +13,14 @@ class PhoneState {
   /// The number of the caller. NOT WORKING ON IOS
   String? number;
 
-  PhoneState._({required this.status, this.number});
+  /// The duration of call
+  Duration? duration;
+
+  PhoneState._({
+    required this.status,
+    this.number,
+    this.duration,
+  });
 
   /// This method allows you to create a [PhoneState] object with the status [PhoneStateStatus.NOTHING]
   ///
@@ -25,14 +32,17 @@ class PhoneState {
       EventChannel(Constants.EVENT_CHANNEL);
 
   /// This variable allows you to have a stream of the system phone state change
-  static final Stream<PhoneState> stream = _eventChannel
-      .receiveBroadcastStream()
-      .distinct()
-      .map((dynamic event) => PhoneState._(
-            status: PhoneStateStatus.values.firstWhereOrNull(
-                  (element) => element.name == event['status'] as String,
-                ) ??
-                PhoneStateStatus.NOTHING,
-            number: event['phoneNumber'],
-          ));
+  static final Stream<PhoneState> stream =
+      _eventChannel.receiveBroadcastStream().distinct().map(
+            (dynamic event) => PhoneState._(
+              status: PhoneStateStatus.values.firstWhereOrNull(
+                    (element) => element.name == event['status'] as String,
+                  ) ??
+                  PhoneStateStatus.NOTHING,
+              number: event['phoneNumber'],
+              duration: event['callDuration'] != 0
+                  ? Duration(seconds: event['callDuration'])
+                  : null,
+            ),
+          );
 }
