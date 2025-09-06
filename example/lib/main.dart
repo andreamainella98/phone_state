@@ -69,29 +69,33 @@ class _ExampleState extends State<Example> {
                     'Phone State not available',
                   );
                 }
-                return Column(
-                  children: [
-                    const Text(
-                      'Status of call',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    if (status.status == PhoneStateStatus.CALL_INCOMING ||
-                        status.status == PhoneStateStatus.CALL_STARTED)
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
                       Text(
-                        'Number: ${status.number}',
-                        style: const TextStyle(fontSize: 24),
+                        'Status of call: ${status.status}',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
                       ),
-                    if (status.duration != null)
-                      Text(
-                        'Duration of call: ${_formatDuration(status.duration!)}',
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                    Icon(
-                      getIcons(status.status),
-                      color: getColor(status.status),
-                      size: 80,
-                    )
-                  ],
+                      if (status.status == PhoneStateStatus.CALL_INCOMING ||
+                          status.status == PhoneStateStatus.CALL_STARTED)
+                        Text(
+                          'Number: ${status.number}',
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      if (status.duration != null)
+                        Text(
+                          'Duration of call: ${_formatDuration(status.duration!)}',
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      Icon(
+                        getIcons(status.status),
+                        color: getColor(status.status),
+                        size: 80,
+                      )
+                    ],
+                  ),
                 );
               },
             ),
@@ -113,7 +117,7 @@ class _ExampleState extends State<Example> {
   IconData getIcons(PhoneStateStatus status) {
     return switch (status) {
       PhoneStateStatus.NOTHING => Icons.clear,
-      PhoneStateStatus.CALL_INCOMING => Icons.add_call,
+      PhoneStateStatus.CALL_INCOMING || PhoneStateStatus.CALL_OUTGOING => Icons.add_call,
       PhoneStateStatus.CALL_STARTED => Icons.call,
       PhoneStateStatus.CALL_ENDED => Icons.call_end,
     };
@@ -122,7 +126,7 @@ class _ExampleState extends State<Example> {
   Color getColor(PhoneStateStatus status) {
     return switch (status) {
       PhoneStateStatus.NOTHING || PhoneStateStatus.CALL_ENDED => Colors.red,
-      PhoneStateStatus.CALL_INCOMING => Colors.green,
+      PhoneStateStatus.CALL_INCOMING || PhoneStateStatus.CALL_OUTGOING => Colors.green,
       PhoneStateStatus.CALL_STARTED => Colors.orange,
     };
   }
