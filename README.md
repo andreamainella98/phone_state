@@ -22,7 +22,7 @@ This plugin allows you to know quickly and easily if your Android or iOS device 
 dependencies:
   flutter:
     sdk: flutter
-  phone_state: 2.1.1
+  phone_state: 3.0.0
 ```
 #### Android: Added permission on manifest
 ```xml
@@ -30,6 +30,7 @@ dependencies:
 <uses-permission android:name="android.permission.READ_CALL_LOG" />
 ```
 > **Warning**: Adding `READ_CALL_LOG` permission, your app will be removed from the Play Store if you don't have a valid reason to use it. [Read more](https://support.google.com/googleplay/android-developer/answer/9047303?hl=en). But if you don't add it, you will not be able to know caller's number.
+#### iOS: Not needed permissions on info.plist
 
 ## HOW TO USE
 

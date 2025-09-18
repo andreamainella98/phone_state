@@ -1,3 +1,9 @@
+## 3.0.0
+- Added CALL_OUTGOING on iOS - Request of [@jayadevpanthaplavil](https://github.com/jayadevpanthaplavil) with pull request [#43](https://github.com/andreamainella98/phone_state/pull/43)
+- Updated version of Flutter to latest
+- Updated dependencies
+- Fixed android build
+- Fixed minimum version of iOS to 13
 ## 2.1.1
 - Added duration of call - Request of [@steveroseik](https://github.com/steveroseik) with issue [#28](https://github.com/andreamainella98/phone_state/issues/28)
 - Merry christmas everyone 🎉🎄

@@ -41,16 +41,19 @@ open class PhoneStateReceiver : BroadcastReceiver() {
                 resetDuration()
                 PhoneStateStatus.CALL_INCOMING
             }
+
             TelephonyManager.CALL_STATE_OFFHOOK -> {
                 callStartTime = System.currentTimeMillis()
                 updateDuration()
                 PhoneStateStatus.CALL_STARTED
             }
+
             TelephonyManager.CALL_STATE_IDLE -> {
                 updateDuration()
                 callStartTime = 0
                 PhoneStateStatus.CALL_ENDED
             }
+
             else -> PhoneStateStatus.NOTHING
         }
         phoneNumber = null
@@ -63,16 +66,19 @@ open class PhoneStateReceiver : BroadcastReceiver() {
                     resetDuration()
                     PhoneStateStatus.CALL_INCOMING
                 }
+
                 TelephonyManager.EXTRA_STATE_OFFHOOK -> {
                     callStartTime = System.currentTimeMillis()
                     updateDuration()
                     PhoneStateStatus.CALL_STARTED
                 }
+
                 TelephonyManager.EXTRA_STATE_IDLE -> {
                     updateDuration()
                     callStartTime = 0
                     PhoneStateStatus.CALL_ENDED
                 }
+
                 else -> PhoneStateStatus.NOTHING
             }
 

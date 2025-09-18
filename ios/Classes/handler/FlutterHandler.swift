@@ -8,8 +8,8 @@
 import Foundation
 import Flutter
 
-@available(iOS 10.0, *)
-class FlutterHandler{
+@available(iOS 13.0, *)
+class FlutterHandler {
     private let phoneStateChannel: FlutterEventChannel
     
     init(binding: FlutterPluginRegistrar) {
@@ -20,7 +20,7 @@ class FlutterHandler{
         phoneStateChannel.setStreamHandler(PhoneStateHandler())
     }
     
-    public func dispose(){
+    public func dispose() {
         phoneStateChannel.setStreamHandler(nil)
     }
 }

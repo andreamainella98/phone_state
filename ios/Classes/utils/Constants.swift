@@ -5,6 +5,6 @@
 //  Created by Andrea Mainella on 28/02/22.
 //
 
-class Constants{
+class Constants {
     static let EVENT_CHANNEL = "PHONE_STATE_STREAM";
 }
