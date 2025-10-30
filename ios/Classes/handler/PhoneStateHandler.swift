@@ -74,13 +74,15 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate 
         let status = getCallState(from: call)
         
         switch status {
-        case.CALL_INCOMING: // Incoming call ringing — reset duration timer resetCallDuration()
-        case.CALL_OUTGOING: // Outgoing dialing — reset timer (will start once connected) resetCallDuration()
+        case.CALL_INCOMING, // Incoming call ringing — reset duration timer
+            .CALL_OUTGOING: // Outgoing dialing — reset timer (will start once connected)
+            resetCallDuration()
         case.CALL_STARTED: // Call connected (incoming answered or outgoing connected)
             if callStartTime == nil {
                 startDurationTimer()
             }
-        case.CALL_ENDED: // Call finished stopDurationTimer()
+        case.CALL_ENDED: // Call finished
+            stopDurationTimer()
         default: break
         }
         
@@ -96,8 +98,9 @@ class PhoneStateHandler: NSObject, FlutterStreamHandler, CXCallObserverDelegate 
                 initialStatus = callStatus
                 
                 switch callStatus {
-                case.CALL_INCOMING, .CALL_OUTGOING: // Reset duration timer for new incoming/outgoing calls resetCallDuration()
-                    
+                case.CALL_INCOMING, .CALL_OUTGOING: // Reset duration timer for new incoming/outgoing calls
+                    resetCallDuration()
+
                 case.CALL_STARTED: // Start timer if a call is already in progress
                     if callStartTime == nil {
                         startDurationTimer()
