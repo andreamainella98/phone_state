@@ -1,3 +1,5 @@
+## 3.0.1
+- Fixed error on iOS build
 ## 3.0.0
 - Added CALL_OUTGOING on iOS - Request of [@jayadevpanthaplavil](https://github.com/jayadevpanthaplavil) with pull request [#43](https://github.com/andreamainella98/phone_state/pull/43)
 - Updated version of Flutter to latest
